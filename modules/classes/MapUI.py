@@ -21,7 +21,7 @@ class MapUI(UI):
         self.ax = self.fig.add_subplot()
         self.ax.grid(True)
 
-    def draw_solutions(self, cities: list[City], solutions: list[Route]):
+    def draw_solutions(self, cities: list[City], solutions: list[Route], best_solution: Route):
         xs = MapUI._get_x_coordinates(cities)
         ys = MapUI._get_y_coordinates(cities)
 
@@ -29,12 +29,9 @@ class MapUI(UI):
         MapUI._label_points(self.ax, xs, ys)
 
         for i, solution in enumerate(solutions):
-            if i == len(solutions) - 1:
-                MapUI._draw_solution(self.ax, solution, 3)
-
-                continue
-
             MapUI._draw_solution(self.ax, solution)
+
+        MapUI._draw_solution(self.ax, best_solution, 3)
 
         self.ax.set_xticks([i for i in range(int(min(xs)), int(max(xs)) + 1)])
         self.ax.set_yticks([i for i in range(int(min(ys)), int(max(ys)) + 1)])

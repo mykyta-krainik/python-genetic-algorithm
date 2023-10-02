@@ -43,7 +43,11 @@ class GeneticAlgorithm(Population):
 
             self.best_solutions.append(solution)
 
-        self.input_ui.draw_solutions(self._cities, self.best_solutions)
+        fittest_solution = copy.deepcopy(self._get_fittest_route())
+
+        fittest_solution.route.append(fittest_solution.route[0])
+
+        self.input_ui.draw_solutions(self._cities, self.best_solutions, fittest_solution)
 
         return solution
 
@@ -113,12 +117,12 @@ class GeneticAlgorithm(Population):
 
     def _evolve_population(self) -> None:
         new_population: set[Route] = set()
-        fittest_route = self._get_fittest_route()
+        # fittest_route = self._get_fittest_route()
 
-        new_population.add(fittest_route)
+        # new_population.add(fittest_route)
 
         while len(new_population) < len(self._population):
-            parent1, parent2 = self._get_parents_inbreeding()
+            parent1, parent2 = self._get_parents_panmixia()
 
             child1, child2 = GeneticAlgorithm._crossover(parent1, parent2)
 
